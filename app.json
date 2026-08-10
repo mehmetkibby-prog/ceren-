@@ -1,0 +1,19 @@
+{
+  "expo": {
+    "name": "Kimya Pembe",
+    "slug": "kimya-pembe",
+    "version": "1.0.0",
+    "orientation": "default",
+    "userInterfaceStyle": "light",
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.kimyapembe.app"
+    },
+    "android": {
+      "package": "com.kimyapembe.app",
+      "adaptiveIcon": {
+        "backgroundColor": "#FBEAF2"
+      }
+    }
+  }
+}
