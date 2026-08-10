@@ -1,49 +1,45 @@
 name: APK Olustur
 
 on:
-workflow_dispatch:
-push:
-branches:
-- main
+  workflow_dispatch:
+  push:
+    branches:
+      - main
 
 jobs:
-build:
-runs-on: ubuntu-latest
+  build-apk:
+    runs-on: ubuntu-latest
 
-```
-steps:
-  - name: Projeyi indir
-    uses: actions/checkout@v4
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
 
-  - name: Node.js kur
-    uses: actions/setup-node@v6
-    with:
-      node-version: 22
-      package-manager-cache: false
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
 
-  - name: Java kur
-    uses: actions/setup-java@v4
-    with:
-      distribution: temurin
-      java-version: "21"
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: "temurin"
+          java-version: "21"
 
-  - name: Paketleri yukle
-    run: npm install
+      - name: Install dependencies
+        run: npm install
 
-  - name: Tam Android projesini hazirla
-    run: bash scripts/prepare-android.sh
+      - name: Generate Android project
+        run: npx expo prebuild --platform android --non-interactive
 
-  - name: Gradle izni ver
-    run: chmod +x android/gradlew
+      - name: Make Gradle executable
+        run: chmod +x android/gradlew
 
-  - name: Debug APK olustur
-    working-directory: android
-    run: ./gradlew assembleDebug
+      - name: Build APK
+        working-directory: android
+        run: ./gradlew assembleDebug
 
-  - name: APK dosyasini yukle
-    uses: actions/upload-artifact@v4
-    with:
-      name: Ceren-Kimya-Debug-APK
-      path: android/app/build/outputs/apk/debug/app-debug.apk
-      if-no-files-found: error
-```
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: Ceren-Kimya-APK
+          path: android/app/build/outputs/apk/debug/app-debug.apk
