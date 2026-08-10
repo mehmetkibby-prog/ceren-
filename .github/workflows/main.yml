@@ -35,8 +35,10 @@ jobs:
         run: chmod +x android/gradlew
 
       - name: Build Release APK
-        working-directory: android
-        run: ./gradlew assembleRelease
+  working-directory: android
+  env:
+    NODE_ENV: production
+  run: ./gradlew assembleRelease
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
